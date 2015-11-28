@@ -1,0 +1,182 @@
+System.register(['aurelia-binding', 'aurelia-templating'], function (_export) {
+  'use strict';
+
+  var bindingMode, bindable, Pagination;
+
+  var _createDecoratedClass = (function () { function defineProperties(target, descriptors, initializers) { for (var i = 0; i < descriptors.length; i++) { var descriptor = descriptors[i]; var decorators = descriptor.decorators; var key = descriptor.key; delete descriptor.key; delete descriptor.decorators; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor || descriptor.initializer) descriptor.writable = true; if (decorators) { for (var f = 0; f < decorators.length; f++) { var decorator = decorators[f]; if (typeof decorator === 'function') { descriptor = decorator(target, key, descriptor) || descriptor; } else { throw new TypeError('The decorator for method ' + descriptor.key + ' is of the invalid type ' + typeof decorator); } } if (descriptor.initializer !== undefined) { initializers[key] = descriptor; continue; } } Object.defineProperty(target, key, descriptor); } } return function (Constructor, protoProps, staticProps, protoInitializers, staticInitializers) { if (protoProps) defineProperties(Constructor.prototype, protoProps, protoInitializers); if (staticProps) defineProperties(Constructor, staticProps, staticInitializers); return Constructor; }; })();
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+  function _defineDecoratedPropertyDescriptor(target, key, descriptors) { var _descriptor = descriptors[key]; if (!_descriptor) return; var descriptor = {}; for (var _key in _descriptor) descriptor[_key] = _descriptor[_key]; descriptor.value = descriptor.initializer ? descriptor.initializer.call(target) : undefined; Object.defineProperty(target, key, descriptor); }
+
+  return {
+    setters: [function (_aureliaBinding) {
+      bindingMode = _aureliaBinding.bindingMode;
+    }, function (_aureliaTemplating) {
+      bindable = _aureliaTemplating.bindable;
+    }],
+    execute: function () {
+      Pagination = (function () {
+        var _instanceInitializers = {};
+
+        function Pagination() {
+          var _this = this;
+
+          _classCallCheck(this, Pagination);
+
+          _defineDecoratedPropertyDescriptor(this, 'currentPage', _instanceInitializers);
+
+          _defineDecoratedPropertyDescriptor(this, 'model', _instanceInitializers);
+
+          _defineDecoratedPropertyDescriptor(this, 'pageBlockSize', _instanceInitializers);
+
+          _defineDecoratedPropertyDescriptor(this, 'pages', _instanceInitializers);
+
+          _defineDecoratedPropertyDescriptor(this, 'pageSize', _instanceInitializers);
+
+          _defineDecoratedPropertyDescriptor(this, 'refineData', _instanceInitializers);
+
+          _defineDecoratedPropertyDescriptor(this, 'refresh', _instanceInitializers);
+
+          this.currentBlockStartPageIndex = 0;
+          this.isDataRefiner = true;
+
+          this.applyInMemoryPaging = function (data) {
+            return new Promise(function (resolve) {
+              _this.isRefining = true;
+
+              var pageSize = parseInt(_this.pageSize);
+              _this.pages = Math.ceil(data.length / pageSize);
+              _this.currentPage = Math.min(_this.currentPage, _this.pages);
+              _this.updatePaging(data);
+              var start = (_this.currentPage - 1) * pageSize;
+              var end = start + pageSize;
+              var currentPageData = data.slice(start, end);
+
+              _this.isRefining = false;
+
+              resolve(currentPageData);
+            });
+          };
+        }
+
+        _createDecoratedClass(Pagination, [{
+          key: 'bind',
+          value: function bind(bindingContext) {
+            this.model = this.model || bindingContext;
+            if (this.refineData !== 'false' && this.model.addDataRefiner) {
+              this.model.addDataRefiner(this.applyInMemoryPaging);
+            }
+          }
+        }, {
+          key: 'updatePaging',
+          value: function updatePaging(data) {
+            this.updatePageBlocks();
+            this.updateVisibility();
+          }
+        }, {
+          key: 'updatePageBlocks',
+          value: function updatePageBlocks() {
+            var pageBlockSize = parseInt(this.pageBlockSize || this.pages);
+            var blockIndex = Math.ceil(this.currentPage / pageBlockSize) - 1;
+            if (blockIndex) {
+              this.currentBlockStartPageIndex = blockIndex * pageBlockSize + 1;
+            } else {
+              this.currentBlockStartPageIndex = 1;
+            }
+            this.numberOfVisiblePages = Math.min(pageBlockSize, this.pages - this.currentBlockStartPageIndex + 1);
+          }
+        }, {
+          key: 'updateVisibility',
+          value: function updateVisibility() {
+            var pageSize = parseInt(this.pageSize);
+            this.showFirst = this.currentBlockStartPageIndex > 1;
+            this.showLast = this.pageBlockSize && this.currentBlockStartPageIndex + pageSize < this.pages;
+          }
+        }, {
+          key: 'onRefresh',
+          value: function onRefresh() {
+            if (this.refresh) {
+              this.refresh();
+            } else if (this.model.refresh) {
+              this.model.refresh();
+            } else {
+              throw new Error(this.model.constructor.name + ' does not contain an \'refresh\' function.');
+            }
+          }
+        }, {
+          key: 'goToPage',
+          value: function goToPage(page) {
+            if (page > 0) {
+              this.currentPage = page;
+              this.onRefresh();
+            }
+          }
+        }, {
+          key: 'currentPageChanged',
+          value: function currentPageChanged() {
+            if (!this.isRefining) {
+              this.updatePaging();
+            }
+          }
+        }, {
+          key: 'pagesChanged',
+          value: function pagesChanged() {
+            if (!this.isRefining) {
+              this.updatePaging();
+            }
+          }
+        }, {
+          key: 'currentPage',
+          decorators: [bindable({ defaultBindingMode: bindingMode.twoWay })],
+          initializer: function initializer() {
+            return 1;
+          },
+          enumerable: true
+        }, {
+          key: 'model',
+          decorators: [bindable],
+          initializer: null,
+          enumerable: true
+        }, {
+          key: 'pageBlockSize',
+          decorators: [bindable],
+          initializer: function initializer() {
+            return 0;
+          },
+          enumerable: true
+        }, {
+          key: 'pages',
+          decorators: [bindable],
+          initializer: function initializer() {
+            return 1;
+          },
+          enumerable: true
+        }, {
+          key: 'pageSize',
+          decorators: [bindable],
+          initializer: function initializer() {
+            return 10;
+          },
+          enumerable: true
+        }, {
+          key: 'refineData',
+          decorators: [bindable],
+          initializer: function initializer() {
+            return true;
+          },
+          enumerable: true
+        }, {
+          key: 'refresh',
+          decorators: [bindable],
+          initializer: null,
+          enumerable: true
+        }], null, _instanceInitializers);
+
+        return Pagination;
+      })();
+
+      _export('Pagination', Pagination);
+    }
+  };
+});
