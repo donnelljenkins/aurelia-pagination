@@ -45,7 +45,7 @@ System.register(['aurelia-binding', 'aurelia-templating'], function (_export) {
             return new Promise(function (resolve) {
               _this.isRefining = true;
 
-              var pageSize = parseInt(_this.pageSize);
+              var pageSize = parseInt(_this.pageSize, 10);
               _this.pages = Math.ceil(data.length / pageSize);
               _this.currentPage = Math.min(_this.currentPage, _this.pages);
               _this.updatePaging(data);
@@ -77,7 +77,7 @@ System.register(['aurelia-binding', 'aurelia-templating'], function (_export) {
         }, {
           key: 'updatePageBlocks',
           value: function updatePageBlocks() {
-            var pageBlockSize = parseInt(this.pageBlockSize || this.pages);
+            var pageBlockSize = parseInt(this.pageBlockSize || this.pages, 10);
             var blockIndex = Math.ceil(this.currentPage / pageBlockSize) - 1;
             if (blockIndex) {
               this.currentBlockStartPageIndex = blockIndex * pageBlockSize + 1;
@@ -89,7 +89,7 @@ System.register(['aurelia-binding', 'aurelia-templating'], function (_export) {
         }, {
           key: 'updateVisibility',
           value: function updateVisibility() {
-            var pageSize = parseInt(this.pageSize);
+            var pageSize = parseInt(this.pageSize, 10);
             this.showFirst = this.currentBlockStartPageIndex > 1;
             this.showLast = this.pageBlockSize && this.currentBlockStartPageIndex + pageSize < this.pages;
           }

@@ -44,6 +44,10 @@
     "yargs": "^3.30.0"
   },
   "jspm": {
+    "dependencies": {
+      "aurelia-binding": "npm:aurelia-binding@^1.0.0-beta.1.0.1",
+      "aurelia-templating": "npm:aurelia-templating@^1.0.0-beta.1"
+    },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
       "babel-runtime": "npm:babel-runtime@^5.8.24",

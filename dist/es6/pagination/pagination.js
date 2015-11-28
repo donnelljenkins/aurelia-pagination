@@ -16,7 +16,7 @@ export class Pagination {
 
   bind(bindingContext) {
     this.model = this.model || bindingContext;
-    if(this.refineData !== 'false' && this.model.addDataRefiner) {
+    if (this.refineData !== 'false' && this.model.addDataRefiner) {
       this.model.addDataRefiner(this.applyInMemoryPaging);
     }
   }
@@ -25,7 +25,7 @@ export class Pagination {
     return new Promise(resolve => {
       this.isRefining = true;
 
-      let pageSize = parseInt(this.pageSize);
+      let pageSize = parseInt(this.pageSize, 10);
       this.pages = Math.ceil(data.length / pageSize);
       this.currentPage = Math.min(this.currentPage, this.pages);
       this.updatePaging(data);
@@ -45,7 +45,7 @@ export class Pagination {
   }
 
   updatePageBlocks() {
-    let pageBlockSize = parseInt(this.pageBlockSize || this.pages);
+    let pageBlockSize = parseInt(this.pageBlockSize || this.pages, 10);
     let blockIndex = Math.ceil(this.currentPage / pageBlockSize) - 1;
     if (blockIndex) {
       this.currentBlockStartPageIndex = (blockIndex * pageBlockSize) + 1;
@@ -56,7 +56,7 @@ export class Pagination {
   }
 
   updateVisibility() {
-    let pageSize = parseInt(this.pageSize);
+    let pageSize = parseInt(this.pageSize, 10);
     this.showFirst = this.currentBlockStartPageIndex > 1;
     this.showLast = this.pageBlockSize && (this.currentBlockStartPageIndex + pageSize) < this.pages;
   }

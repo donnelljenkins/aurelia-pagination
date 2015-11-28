@@ -1,3 +1,3 @@
 export function configure(aurelia) {
-  aurelia.globalResources('./pagination');
+  aurelia.globalResources('./pagination/pagination');
 }
