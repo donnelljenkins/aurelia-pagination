@@ -60,9 +60,9 @@ export function configure(aurelia) {
 # Getting started
 
 ## aurelia-datagrid
-- Notes
-  - aurelia-datagrid@0.1.5 and later is setup to work with the pagination 'out of the box'.  
-  - Earlier versions can be setup using a similar setup as [Custom Components](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#other-components).
+- **Notes**
+  - aurelia-datagrid-v0.1.5 and later is setup to work with the pagination 'out of the box'.  
+  - If you are currently using aurelia-datagrid-v0.1.4, then follow the instructions setup listed under [Custom Components](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#other-components).  v0.1.4 is not coded to work with the aurelia-pagination component 'out of the box'.
 
 If you have not already, setup your app using the instructions from the <a href="http://aurelia.io/docs.html#/aurelia/framework/latest/doc/article/getting-started" target="_blank">Getting Started<a> page on Aurelia.
 
@@ -145,7 +145,88 @@ Refresh the app and now only 10 pages show at time.
 ## Custom Components
 
 ### aurelia-datagrid@0.1.4
+
+Let's update the *products* page from the [Getting Started](https://github.com/donnelljenkins/aurelia-datagrid/blob/master/doc/HOWTO.md#getting-started) section of the **aurelia-datagrid** to demonstrate.
+
+First, we'll add our paging logic to the view model. In **products.js**, add the following:
+```javascript
+applyPaging = (items) => {
+  if (this.grid.pager) {
+    return this.grid.pager.applyPaging(items);
+  };
+  return items;
+}
+```
+
+Now, we'll update the HTML to show pagination.  We will place it in the grid's footer section.
+
+First, add the replaceable template 'grid-footer-template' element to the grid:
+```html
+<grid datasource="products">
+  ...
+  <template replace-part="grid-footer-template">
+  </template>
+</grid>
+```
+
+Next, add the pagination component to the footer template:
+```html
+<template replace-part="grid-footer-template">
+  <td colspan.bind="columns.length">
+      <pagination></pagination>
+  </td>
+</template>
+```
+
+Let's add a reference to the grid and pagination components so we can have direct access to the pagination's view model in the **applyPaging()** method we added above.
+```html
+<grid view-model.ref="pager"> ...
+<pagination view-model.ref="pager">...
+```
+
+Finally, we need to subscribe to the **additional-filtering** event on the grid to force it to call our paging logic every time the grid's data source is updated (filtered, sorted, etc).  Update the grid element to look like this:
+```html
+<grid data-source.bind="products" 
+      view-model.ref="grid"
+      additional-filtering.bind="applyPaging">
+```
+Every time the grid updates, it will call our **applyPaging()** method after it applies any sorting and column filtering.
+
+The entire grid's HTML should now look like this:
+```html
+<grid data-source.bind="products" 
+      view-model.ref="grid"
+      additional-filtering.bind="applyPaging">
+  <template replace-part="grid-template">
+    <grid-column property="code" filterable sortable></grid-column>
+    <grid-column property="name" filterable="contains" sortable></grid-column>
+    <grid-column-checkbox property="active" filterable sortable></grid-column-checkbox>
+    <grid-column property="category" filterable sortable></grid-column>
+    <grid-column property="price"></grid-column>
+  </template>
+  
+  <template replace-part="grid-footer-template">
+    <td colspan.bind="columns.length">
+      <pagination page-size="3" view-model.ref="pager"></pagination>
+    </td>
+  </template>
+</grid>
+```
+
+That's it! Run the app and the grid is paged.
+
+### Your own custom components
+
+#### Allowing aurelia-pagination to refine the data
 > Coming soon.
 
-### Others
+#### Performing your own pagination logic and using the aurelia-pagination for visual representation only
+> Coming soon.
+
+### Third party custom components
+
+#### Allowing aurelia-pagination to refine the data
+> Coming soon.
+
+#### Performing your own pagination logic and using the aurelia-pagination for visual representation only
 > Coming soon.
