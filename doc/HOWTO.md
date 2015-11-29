@@ -1,7 +1,7 @@
 # Example
 
 ```html
-<pagination page-size="3" page-block-size="10" model.bind="listViewModel"></pagination>
+<pagination page-size="5" page-block-size="10" model.bind="products"></pagination>
 ```
 
 # Installation
@@ -207,7 +207,7 @@ The entire grid's HTML should now look like this:
   
   <template replace-part="grid-footer-template">
     <td colspan.bind="columns.length">
-      <pagination page-size="3" view-model.ref="pager"></pagination>
+      <pagination page-size="5" view-model.ref="pager"></pagination>
     </td>
   </template>
 </grid>
@@ -229,4 +229,50 @@ That's it! Run the app and the grid is paged.
 > Coming soon.
 
 #### Performing your own pagination logic and using the aurelia-pagination for visual representation only
+> Coming soon.
+
+## Pagination
+
+### Attributes
+
+#### current-page
+```html
+<pagination current-page.bind="currentlySelectedPage"></pagination>
+```
+> Coming soon.
+
+#### model
+```html
+<pagination model.bind="products"></pagination>
+```
+> Coming soon.
+
+#### page-block-size
+```html
+<pagination page-block-size="10"></pagination>
+```
+> Coming soon.
+
+#### pages
+```html
+<pagination pages.bind="totalPages"></pagination>
+```
+> Coming soon.
+
+#### page-size
+```html
+<pagination page-block-size="10"></pagination>
+```
+> Coming soon.
+
+#### refine-data
+```html
+<pagination refine-data="false"></pagination>
+```
+> Coming soon.
+
+#### refresh
+```html
+<pagination refresh.bind="refreshAfterPageChanged"></pagination>
+```
 > Coming soon.
