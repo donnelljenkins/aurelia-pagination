@@ -11,8 +11,11 @@ A pagination plugin for Aurelia.
 ## Documentation
 - [Installation](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#installation)
 - [Getting started](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#getting-started)
-  - [aurelia-datagrid](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#aurelia-datagrid)
-  - [Other Components](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#other-components)
+  - [aurelia-datagrid ^v0.1.5](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#aurelia-datagrid)
+  - [Custom Components](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#custom-components)
+    - [aurelia-datagrid@v0.1.4](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#aurelia-datagrid014)
+    - [Your custom components](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#your-own-custom-components)
+    - [Third-party components](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#third-party-components)
 - [Pagination](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#pagination)
 
 ## Dependencies
