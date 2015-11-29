@@ -41,7 +41,7 @@ System.register(['aurelia-binding', 'aurelia-templating'], function (_export) {
           this.currentBlockStartPageIndex = 0;
           this.isDataRefiner = true;
 
-          this.refineData = function (data) {
+          this.onRefineData = function (data) {
             return new Promise(function (resolve) {
               var currentPageData = applyPaging(data);
               resolve(currentPageData);
@@ -68,7 +68,7 @@ System.register(['aurelia-binding', 'aurelia-templating'], function (_export) {
           value: function bind(bindingContext) {
             this.model = this.model || bindingContext;
             if (this.refineData !== 'false' && this.model.addDataRefiner) {
-              this.model.addDataRefiner(this.refineData);
+              this.model.addDataRefiner(this.onRefineData);
             } else {
               this.onRefresh();
             }

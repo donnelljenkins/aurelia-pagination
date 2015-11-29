@@ -17,13 +17,13 @@ export class Pagination {
   bind(bindingContext) {
     this.model = this.model || bindingContext;
     if (this.refineData !== 'false' && this.model.addDataRefiner) {
-      this.model.addDataRefiner(this.refineData);
+      this.model.addDataRefiner(this.onRefineData);
     } else {
       this.onRefresh();
     }
   }
 
-  refineData = (data) => {
+  onRefineData = (data) => {
     return new Promise(resolve => {
       let currentPageData = applyPaging(data);
       resolve(currentPageData);
