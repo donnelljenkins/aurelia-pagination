@@ -62,7 +62,7 @@ export function configure(aurelia) {
 ## aurelia-datagrid
 - **Notes**
   - aurelia-datagrid-v0.1.5 and later is setup to work with the pagination 'out of the box'.  
-  - If you are currently using aurelia-datagrid-v0.1.4, then follow the instructions setup listed under [Custom Components](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#other-components).  v0.1.4 is not coded to work with the aurelia-pagination component 'out of the box'.
+  - If you are currently using aurelia-datagrid-v0.1.4, then follow the instructions setup listed under [Custom Components](https://github.com/donnelljenkins/aurelia-pagination/blob/master/doc/HOWTO.md#aurelia-datagrid014).  v0.1.4 is not coded to work with the aurelia-pagination component 'out of the box'.
 
 If you have not already, setup your app using the instructions from the <a href="http://aurelia.io/docs.html#/aurelia/framework/latest/doc/article/getting-started" target="_blank">Getting Started<a> page on Aurelia.
 
