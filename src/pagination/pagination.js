@@ -17,26 +17,31 @@ export class Pagination {
   bind(bindingContext) {
     this.model = this.model || bindingContext;
     if (this.refineData !== 'false' && this.model.addDataRefiner) {
-      this.model.addDataRefiner(this.applyInMemoryPaging);
+      this.model.addDataRefiner(this.refineData);
+    } else {
+      this.onRefresh();
     }
   }
 
-  applyInMemoryPaging = (data) => {
+  refineData = (data) => {
     return new Promise(resolve => {
-      this.isRefining = true;
-
-      let pageSize = parseInt(this.pageSize, 10);
-      this.pages = Math.ceil(data.length / pageSize);
-      this.currentPage = Math.min(this.currentPage, this.pages);
-      this.updatePaging(data);
-      let start = (this.currentPage - 1) * pageSize;
-      let end = start + pageSize;
-      let currentPageData = data.slice(start, end);
-
-      this.isRefining = false;
-
+      let currentPageData = applyPaging(data);
       resolve(currentPageData);
     });
+  }
+
+  applyPaging = (data) => {
+    this.isRefining = true;
+    let pageSize = parseInt(this.pageSize, 10);
+    this.pages = Math.ceil(data.length / pageSize);
+    this.currentPage = Math.min(this.currentPage, this.pages);
+    this.updatePaging(data);
+    let start = (this.currentPage - 1) * pageSize;
+    let end = start + pageSize;
+    let currentPageData = data.slice(start, end);
+
+    this.isRefining = false;
+    return currentPageData;
   }
 
   updatePaging(data) {

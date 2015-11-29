@@ -41,22 +41,25 @@ System.register(['aurelia-binding', 'aurelia-templating'], function (_export) {
           this.currentBlockStartPageIndex = 0;
           this.isDataRefiner = true;
 
-          this.applyInMemoryPaging = function (data) {
+          this.refineData = function (data) {
             return new Promise(function (resolve) {
-              _this.isRefining = true;
-
-              var pageSize = parseInt(_this.pageSize, 10);
-              _this.pages = Math.ceil(data.length / pageSize);
-              _this.currentPage = Math.min(_this.currentPage, _this.pages);
-              _this.updatePaging(data);
-              var start = (_this.currentPage - 1) * pageSize;
-              var end = start + pageSize;
-              var currentPageData = data.slice(start, end);
-
-              _this.isRefining = false;
-
+              var currentPageData = applyPaging(data);
               resolve(currentPageData);
             });
+          };
+
+          this.applyPaging = function (data) {
+            _this.isRefining = true;
+            var pageSize = parseInt(_this.pageSize, 10);
+            _this.pages = Math.ceil(data.length / pageSize);
+            _this.currentPage = Math.min(_this.currentPage, _this.pages);
+            _this.updatePaging(data);
+            var start = (_this.currentPage - 1) * pageSize;
+            var end = start + pageSize;
+            var currentPageData = data.slice(start, end);
+
+            _this.isRefining = false;
+            return currentPageData;
           };
         }
 
@@ -65,7 +68,9 @@ System.register(['aurelia-binding', 'aurelia-templating'], function (_export) {
           value: function bind(bindingContext) {
             this.model = this.model || bindingContext;
             if (this.refineData !== 'false' && this.model.addDataRefiner) {
-              this.model.addDataRefiner(this.applyInMemoryPaging);
+              this.model.addDataRefiner(this.refineData);
+            } else {
+              this.onRefresh();
             }
           }
         }, {
