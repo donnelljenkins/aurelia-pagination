@@ -223,7 +223,7 @@ That's it! Run the app and the grid is paged.
 #### Performing your own pagination logic and using the aurelia-pagination for visual representation only
 > Coming soon.
 
-### Third party custom components
+### Third-party components
 
 #### Allowing aurelia-pagination to refine the data
 > Coming soon.
