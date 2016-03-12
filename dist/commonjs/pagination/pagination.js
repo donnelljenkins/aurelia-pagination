@@ -41,7 +41,7 @@ var Pagination = (function () {
 
     this.onRefineData = function (data) {
       return new Promise(function (resolve) {
-        var currentPageData = applyPaging(data);
+        var currentPageData = _this.applyPaging(data);
         resolve(currentPageData);
       });
     };

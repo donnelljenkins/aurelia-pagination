@@ -25,7 +25,7 @@ export class Pagination {
 
   onRefineData = (data) => {
     return new Promise(resolve => {
-      let currentPageData = applyPaging(data);
+      let currentPageData = this.applyPaging(data);
       resolve(currentPageData);
     });
   }

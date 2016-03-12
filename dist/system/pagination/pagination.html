@@ -21,7 +21,7 @@
       <a click.delegate="goToPage(pages)">...${pages}</a>
     </li>
 
-    <li show.bind="currentPage < pages">
+    <li class.bind="currentPage < pages ? '': 'disabled'">
       <a click.delegate="goToPage(currentPage + 1)">
         <span class="glyphicon glyphicon-chevron-right"></span>
       </a>

@@ -1,14 +1,14 @@
 {
   "name": "aurelia-pagination",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A pagination plugin for Aurelia.",
   "main": "dist/aurelia-pagination.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "http://donthedev.com",
+  "homepage": "https://github.com/donnelljenkins/aurelia-pagination#readme",
   "bugs": {
-    "url": "https://github.com/donnelljenkins/aurelia-grid/issues"
+    "url": "https://github.com/donnelljenkins/aurelia-pagination/issues"
   },
   "repository": {
     "type": "git",
@@ -21,10 +21,6 @@
   ],
   "author": "Donnell Jenkins <djenkins@donthedev.com> (http://donthedev.com/)",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/donnelljenkins/aurelia-pagination/issues"
-  },
-  "homepage": "https://github.com/donnelljenkins/aurelia-pagination#readme",
   "devDependencies": {
     "aurelia-tools": "^0.1.16",
     "babel-eslint": "^4.1.6",
