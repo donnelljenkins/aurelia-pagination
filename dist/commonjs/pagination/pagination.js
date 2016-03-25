@@ -50,8 +50,8 @@ var Pagination = (function () {
       _this.isRefining = true;
       var pageSize = parseInt(_this.pageSize, 10);
       _this.pages = Math.ceil(data.length / pageSize);
-      _this.currentPage = Math.min(_this.currentPage, _this.pages);
-      _this.updatePaging(data);
+      _this.currentPage = _this.minimumAllowedPage(_this.currentPage, _this.pages);
+      _this.updatePaging();
       var start = (_this.currentPage - 1) * pageSize;
       var end = start + pageSize;
       var currentPageData = data.slice(start, end);
@@ -72,8 +72,14 @@ var Pagination = (function () {
       }
     }
   }, {
+    key: 'minimumAllowedPage',
+    value: function minimumAllowedPage(a, b) {
+      var page = Math.min(a, b);
+      return Math.max(page, 1);
+    }
+  }, {
     key: 'updatePaging',
-    value: function updatePaging(data) {
+    value: function updatePaging() {
       this.updatePageBlocks();
       this.updateVisibility();
     }
@@ -81,13 +87,19 @@ var Pagination = (function () {
     key: 'updatePageBlocks',
     value: function updatePageBlocks() {
       var pageBlockSize = parseInt(this.pageBlockSize || this.pages, 10);
-      var blockIndex = Math.ceil(this.currentPage / pageBlockSize) - 1;
+      var blockIndex = undefined;
+      if (!this.currentPage || !pageBlockSize) {
+        blockIndex = 0;
+      } else {
+        blockIndex = Math.ceil(this.currentPage / pageBlockSize) - 1;
+      }
+
       if (blockIndex) {
         this.currentBlockStartPageIndex = blockIndex * pageBlockSize + 1;
       } else {
         this.currentBlockStartPageIndex = 1;
       }
-      this.numberOfVisiblePages = Math.min(pageBlockSize, this.pages - this.currentBlockStartPageIndex + 1);
+      this.numberOfVisiblePages = this.minimumAllowedPage(pageBlockSize, this.pages - this.currentBlockStartPageIndex + 1);
     }
   }, {
     key: 'updateVisibility',
@@ -104,7 +116,7 @@ var Pagination = (function () {
       } else if (this.model.refresh) {
         this.model.refresh();
       } else {
-        throw new Error(this.model.constructor.name + ' does not contain an \'refresh\' function.');
+        throw new Error(this.model.constructor.name + ' does not contain a \'refresh\' function.');
       }
     }
   }, {

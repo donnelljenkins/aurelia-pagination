@@ -34,8 +34,8 @@ export class Pagination {
     this.isRefining = true;
     let pageSize = parseInt(this.pageSize, 10);
     this.pages = Math.ceil(data.length / pageSize);
-    this.currentPage = Math.min(this.currentPage, this.pages);
-    this.updatePaging(data);
+    this.currentPage = this.minimumAllowedPage(this.currentPage, this.pages);
+    this.updatePaging();
     let start = (this.currentPage - 1) * pageSize;
     let end = start + pageSize;
     let currentPageData = data.slice(start, end);
@@ -44,20 +44,31 @@ export class Pagination {
     return currentPageData;
   }
 
-  updatePaging(data) {
+  minimumAllowedPage(a, b) {
+    let page = Math.min(a, b);
+    return Math.max(page, 1);
+  }
+
+  updatePaging() {
     this.updatePageBlocks();
     this.updateVisibility();
   }
 
   updatePageBlocks() {
     let pageBlockSize = parseInt(this.pageBlockSize || this.pages, 10);
-    let blockIndex = Math.ceil(this.currentPage / pageBlockSize) - 1;
+    let blockIndex;
+    if (!this.currentPage || !pageBlockSize) {
+      blockIndex = 0;
+    } else {
+      blockIndex = Math.ceil(this.currentPage / pageBlockSize) - 1;
+    }
+
     if (blockIndex) {
       this.currentBlockStartPageIndex = (blockIndex * pageBlockSize) + 1;
     } else {
       this.currentBlockStartPageIndex = 1;
     }
-    this.numberOfVisiblePages = Math.min(pageBlockSize, this.pages - this.currentBlockStartPageIndex + 1);
+    this.numberOfVisiblePages = this.minimumAllowedPage(pageBlockSize, this.pages - this.currentBlockStartPageIndex + 1);
   }
 
   updateVisibility() {
@@ -72,7 +83,7 @@ export class Pagination {
     } else if (this.model.refresh) {
       this.model.refresh();
     } else {
-      throw new Error(`${this.model.constructor.name} does not contain an 'refresh' function.`);
+      throw new Error(`${this.model.constructor.name} does not contain a 'refresh' function.`);
     }
   }
 
